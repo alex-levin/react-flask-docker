@@ -1,0 +1,54 @@
+https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project
+
+npx create-react-app react-flask-app-docker
+cd react-flask-app-docker
+mkdir api
+cd api
+python -m venv venv
+venv\Scripts\activate
+pip install flask
+
+Running Flask app in Docker container:
+
+cd middleware
+docker build -t flask-docker .
+docker run -d -p 5000:5000 flask-docker
+docker ps -a
+Alex@alex-pc MINGW64 ~/Documents/Projects/react-flask-app-docker/middleware
+$ docker ps -a
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                      PORTS                    NAMES
+2242545ff93d        flask-docker         "python3 api.py"         7 seconds ago       Up 6 seconds                0.0.0.0:5000->5000/tcp   amazing_bardeen
+
+http://192.168.99.100:5000/time
+{
+  "time": 1586623190.12269
+}
+
+docker stop flask-docker
+
+
+Running Flask and React apps with docker-compose
+
+docker-compose up --build
+
+OR
+docker-compose build
+docker-compose up
+
+http://192.168.99.100:3000/
+
+
+Docker notes:
+https://docker-curriculum.com/
+The docker ps command shows you all containers that are currently running
+$ docker ps
+
+Since no containers are running, we see a blank line. Let's try a more useful variant: docker ps -a
+
+$ docker ps -a
+CONTAINER ID        IMAGE                               COMMAND                  CREATED             STATUS                   PORTS               NAMES
+c2b2c15e1ba2        react-flask-app-docker_frontend     "docker-entrypoint.s…"   2 hours ago         Exited (0) 2 hours ago                       react-flask-app-docker_frontend_1
+dc2a23910911        react-flask-app-docker_middleware   "flask run -host=0.0…"   2 hours ago         Exited (1) 2 hours ago                       react-flask-app-docker_middleware_1
+d9a9363ea369        hello-world                         "/hello"                 6 weeks ago         Exited (0) 6 weeks ago                       nifty_herschel
+
+Alex@alex-pc MINGW64 /c/tools/DockerToolbox
